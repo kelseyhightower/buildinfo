@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package buildinfo;
+
+option go_package = "github.com/kelseyhightower/buildinfo/grpc_buildinfo";
+
+service BuildInfoService {
+  rpc GetBuildInfo(EmptyRequest) returns (BuildInfo);
+}
+
+message EmptyRequest {}
+
+message BuildInfo {
+    string go_version = 1;
+    string path = 2;
+    Module main = 3;
+    repeated Module deps = 4;
+    repeated BuildSetting settings = 5;
+}
+
+message Module {
+  string path = 1;
+  string version = 2;
+  string sum = 3;
+  Module replace = 4;
+}
+
+message BuildSetting {
+  string key = 1;
+  string value = 2;
+}
